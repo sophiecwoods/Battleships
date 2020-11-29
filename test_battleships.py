@@ -4,10 +4,28 @@ from battleships import *
 
 @pytest.mark.parametrize("ship_input, expected_output",
                          [
+                             #tests that a cruiser is sunk in three hits
                              ((2, 3, False, 3, {(2, 3), (3, 3), (4, 3)}), True),
+                             #tests that a submarine is sunk in one hit
                              ((0, 1, True, 1, {(0, 1)}), True),
+                             #tests that a destroyer is sunk in two hits
+                             ((4, 7, False, 2, {(4, 7), (5, 7)}), True),
+                             #tests that a battleship is sunk in four hits
+                             ((9, 6, True, 4, {(9, 6), (9, 7), (9, 8), (9, 9)}), True),
+                             #tests that a destroyer is not sunk in one hit
                              ((7, 3, True, 2, {7, 4}), False),
+                             #tests that a battleship is not sunk in two hits
                              ((2, 0, False, 4, {(5, 0), (2, 0)}), False),
+                             #tests that a cruiser is not sunk in two hits
+                             ((5, 5, True, 3, {(5, 6), (5, 7)}), False),
+                             #tests that a submarine is not sunk in no hits
+                             ((3, 9, True, 1, set()), False),
+                             #tests that a destroyer is not sunk in no hits
+                             ((8, 6, False, 2, set()), False),
+                             #tests that a cruiser is not sunk in no hits
+                             ((1, 5, True, 3, set()), False),
+                             #tests that a battleship is not sunk in no hits
+                             ((0, 3, True, 4, set()), False)
                          ]
                          )
 def test_is_sunk1(ship_input, expected_output):

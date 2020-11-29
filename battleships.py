@@ -2,8 +2,27 @@
 
 
 def is_sunk(ship):
-    #remove pass and add your implementation
-    pass
+    """returns Boolean value, which is True if ship is sunk and False otherwise"""
+    row_start_pos = ship[0]
+    col_start_pos = ship[1]
+    horizontal = ship[2]
+    ship_length = ship[3]
+    hits = ship[4]
+    num_of_hits = 0
+    if (row_start_pos, col_start_pos) in ship[4]:
+        num_of_hits += 1
+    for i in range(1, ship_length):
+        if horizontal == True:
+            if (row_start_pos, col_start_pos + i) in hits:
+                num_of_hits += 1
+        else:
+            if (row_start_pos + i, col_start_pos) in hits:
+                num_of_hits += 1
+    if num_of_hits == ship_length:
+        return True
+    else:
+        return False
+
 
 def ship_type(ship):
     #remove pass and add your implementation
