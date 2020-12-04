@@ -1,29 +1,38 @@
 import pytest
 from battleships import *
 
-
 @pytest.mark.parametrize("ship_input, expected_output",
                          [
                              #tests that a cruiser is sunk in three hits
                              ((2, 3, False, 3, {(2, 3), (3, 3), (4, 3)}), True),
+                             
                              #tests that a submarine is sunk in one hit
                              ((0, 1, True, 1, {(0, 1)}), True),
+                             
                              #tests that a destroyer is sunk in two hits
                              ((4, 7, False, 2, {(4, 7), (5, 7)}), True),
+                             
                              #tests that a battleship is sunk in four hits
                              ((9, 6, True, 4, {(9, 6), (9, 7), (9, 8), (9, 9)}), True),
+                             
                              #tests that a destroyer is not sunk in one hit
                              ((7, 3, True, 2, {7, 4}), False),
+                             
                              #tests that a battleship is not sunk in two hits
                              ((2, 0, False, 4, {(5, 0), (2, 0)}), False),
+                             
                              #tests that a cruiser is not sunk in two hits
                              ((5, 5, True, 3, {(5, 6), (5, 7)}), False),
+                             
                              #tests that a submarine is not sunk in no hits
                              ((3, 9, True, 1, set()), False),
+                             
                              #tests that a destroyer is not sunk in no hits
                              ((8, 6, False, 2, set()), False),
+                             
                              #tests that a cruiser is not sunk in no hits
                              ((1, 5, True, 3, set()), False),
+                             
                              #tests that a battleship is not sunk in no hits
                              ((0, 3, True, 4, set()), False)
                          ]
@@ -33,10 +42,41 @@ def test_is_sunk1(ship_input, expected_output):
 
 @pytest.mark.parametrize("ship_input, expected_output",
                          [
+                             # tests that a horizontal ship of length 1 returns submarine
                              ((0, 0, True, 1, set()), "submarine"),
-                             ((7, 2, False, 2, set()), "cruiser"),
-                             ((4, 5, True, 3, {(4, 7)}), "destroyer"),
-                             ((6, 9, False, 4, {(7, 9), (8, 9)}), "battleship"),
+
+                             # tests that a vertical ship of length 1 returns submarine
+                             ((2, 5, False, 1, set()), "submarine"),
+
+                             # tests that a horizontal ship of length 2 returns destroyer
+                             ((8, 3, True, 2, set()), "destroyer"),
+
+                             # tests that a vertical ship of length 2 returns destroyer
+                             ((7, 2, False, 2, set()), "destroyer"),
+
+                             # tests that a horizontal ship of length 3 returns cruiser
+                             ((4, 5, True, 3, set()), "cruiser"),
+
+                             # tests that a vertical ship of length 3 returns cruiser
+                             ((1, 6, False, 3, set()), "cruiser"),
+
+                             # tests that a horizontal ship of length 4 returns battleship
+                             ((4, 4, True, 4, set()), "battleship"),
+
+                             # tests that a vertical ship of length 4 returns battleship
+                             ((6, 9, False, 4, set()), "battleship"),
+
+                             # tests that ship hits doesn't affect ship type on submarine
+                             ((3, 1, True, 1, {(3, 1)}), "submarine"),
+
+                             # tests that ship hits doesn't affect ship type on destroyer
+                             ((5, 8, False, 2, {(5, 8), (6, 8)}), "destroyer"),
+
+                             # tests that ship hits doesn't affect ship type on cruiser
+                             ((7, 0, True, 3, {(7, 2)}), "cruiser"),
+
+                             # tests that ship hits doesn't affect ship type on battleship
+                             ((3, 3, False, 4, {(3, 3), (4, 3), (5, 3)}), "battleship")
                          ]
                          )
 def test_ship_type1(ship_input, expected_output):
@@ -128,5 +168,4 @@ def test_hit1(row_input, column_input, fleet_input, expected_output):
                          )
 def test_are_unsunk_ships_left1(fleet_input, expected_output):
     assert are_unsunk_ships_left(fleet_input) == expected_output
-
 

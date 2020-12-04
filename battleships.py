@@ -1,22 +1,19 @@
 #see the readme.md file for description and data 
 
-
 def is_sunk(ship):
     """returns Boolean value, which is True if ship is sunk and False otherwise"""
-    row_start_pos = ship[0]
-    col_start_pos = ship[1]
+    row_pos = ship[0]
+    col_pos = ship[1]
     horizontal = ship[2]
     ship_length = ship[3]
     hits = ship[4]
     num_of_hits = 0
-    if (row_start_pos, col_start_pos) in ship[4]:
-        num_of_hits += 1
-    for i in range(1, ship_length):
-        if horizontal == True:
-            if (row_start_pos, col_start_pos + i) in hits:
+    for i in range(ship_length):
+        if horizontal:
+            if (row_pos, col_pos + i) in hits:
                 num_of_hits += 1
         else:
-            if (row_start_pos + i, col_start_pos) in hits:
+            if (row_pos + i, col_pos) in hits:
                 num_of_hits += 1
     if num_of_hits == ship_length:
         return True
@@ -25,8 +22,15 @@ def is_sunk(ship):
 
 
 def ship_type(ship):
-    #remove pass and add your implementation
-    pass
+    ship_length = ship[3]
+    if ship_length == 1:
+        return "submarine"
+    elif ship_length == 2:
+        return "destroyer"
+    elif ship_length == 3:
+        return "cruiser"
+    else:
+        return "battleship"
 
 def is_open_sea(row, column, fleet):
     #remove pass and add your implementation
