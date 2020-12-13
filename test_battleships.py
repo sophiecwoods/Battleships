@@ -40,6 +40,7 @@ from battleships import *
 def test_is_sunk1(ship_input, expected_output):
     assert is_sunk(ship_input) == expected_output
 
+
 @pytest.mark.parametrize("ship_input, expected_output",
                          [
                              # tests that a horizontal ship of length 1 returns submarine
@@ -82,16 +83,57 @@ def test_is_sunk1(ship_input, expected_output):
 def test_ship_type1(ship_input, expected_output):
     assert ship_type(ship_input) == expected_output
 
+
 @pytest.mark.parametrize("row_input, column_input, fleet_input, expected_output",
                          [
+                             # tests that square in empty board returns True
                              (8, 0, [], True),
+
+                             # tests that square with no adjacent ships and one ship on board returns True
                              (4, 2, [(8, 3, True, 3, set())], True),
+
+                             # tests that square with no adjacent ships and five ships on board returns True
+                             (6, 7, [(8, 5, False, 2, set()), (4, 3, True, 4, set()), (3, 8, False, 1, set()), \
+                                     (6, 1, True, 1, set()), (0, 2, True, 3, set())], True),
+
+                             # tests that square with no adjacent ships and nine ships on board returns True
+                             (2, 9, [(6, 9, False, 4, set()), (3, 2, True, 3, set()), (6, 3, False, 3, set()), \
+                                     (2, 0, False, 2, set()), (7, 6, True, 2, set()), (1, 7, False, 2, set()), \
+                                     (9, 7, False, 1, set()), (0, 4, True, 1, set()), (4, 9, True, 1, set())], True),
+
+                             # Tests that square occupied by ship and one ship on board returns False
                              (1, 5, [(0, 5, False, 4, set())], False),
+
+                             # Tests that square occupied by ship and four ships on board returns False
+                             (2, 1, [(5, 3, True, 2, set()), (1, 1, False, 2, set()), (6, 0, False, 1, set()), \
+                                     (8, 6, True, 3, set())], False),
+
+                             # Tests that square horizontally adjacent to ship returns False
                              (7, 7, [(3, 2, False, 3, set()), (7, 3, True, 4, set()), (5, 9, True, 1, set())], False),
+
+                             # Tests that square diagonally adjacent to ship returns False
+                             (9, 8, [(2, 8, True, 1, set()), (8, 1, True, 3, set()), (3, 1, False, 1, set()), \
+                                     (1, 6, True, 1, set()), (5, 3, True, 2, set()), (6, 7, False, 3, set())], False),
+
+                             # Tests that square vertically adjacent to ship returns False
+                             (6, 2, [(9, 5, 4, False, set()), (3, 7, True, 3, set()), (1, 1, False, 3, set()), \
+                                     (5, 0, False, 2, set()), (3, 7, True, 2, set()), (4, 4, True, 2, set()), \
+                                     (5, 2, True, 1, set())], False),
+
+                             # Tests that square horizontally and diagonally adjacent to ships returns False
+                             (3, 4, [(7, 8, False, 1, set()), (8, 2, True, 2, set()), (4, 3, False, 3, set()), \
+                                     (1, 7, True, 1, set()), (0, 0, True, 4, set()), (3, 0, False, 2, set()), \
+                                     (3, 5, True, 2, set()), (0, 9, False, 3, set())], False),
+
+                             # Tests that square vertically and diagonally adjacent to ships returns False
+                             (2, 6, [(3, 6, 4, False, set()), (8, 4, True, 3, set()), (6, 2, True, 3, set()), \
+                                     (3, 8, False, 2, set()), (2, 1, False, 2, set()), (0, 3, False, 2, set()), \
+                                     (9, 1, True, 1, set()), (1, 5, True, 1, set()), (7, 0, False, 1, set())], False)
                          ]
                          )
 def test_is_open_sea1(row_input, column_input, fleet_input, expected_output):
     assert is_open_sea(row_input, column_input, fleet_input) == expected_output
+
 
 @pytest.mark.parametrize("row_input, column_input, horizontal_input, length_input, fleet_input, expected_output",
                          [
@@ -109,6 +151,7 @@ def test_is_open_sea1(row_input, column_input, fleet_input, expected_output):
 def test_ok_to_place_ship_at1(row_input, column_input, horizontal_input, length_input, fleet_input, expected_output):
     assert ok_to_place_ship_at(row_input, column_input, horizontal_input, length_input, fleet_input) == expected_output
 
+
 @pytest.mark.parametrize("row_input, column_input, horizontal_input, length_input, fleet_input, expected_output",
                          [
                              (5, 9, True, 1, [], [(5, 9, True, 1, set())]),
@@ -123,6 +166,7 @@ def test_ok_to_place_ship_at1(row_input, column_input, horizontal_input, length_
 def test_place_ship_at1(row_input, column_input, horizontal_input, length_input, fleet_input, expected_output):
     assert place_ship_at(row_input, column_input, horizontal_input, length_input, fleet_input) == expected_output
 
+
 @pytest.mark.parametrize("row_input, column_input, fleet_input, expected_output",
                          [
                              (3, 0, [(1, 0, False, 4, set())], True),
@@ -133,6 +177,7 @@ def test_place_ship_at1(row_input, column_input, horizontal_input, length_input,
                          )
 def test_check_if_hits1(row_input, column_input, fleet_input, expected_output):
     assert check_if_hits(row_input, column_input, fleet_input) == expected_output
+
 
 @pytest.mark.parametrize("row_input, column_input, fleet_input, expected_output",
                          [
@@ -156,6 +201,7 @@ def test_check_if_hits1(row_input, column_input, fleet_input, expected_output):
                          )
 def test_hit1(row_input, column_input, fleet_input, expected_output):
     assert hit(row_input, column_input, fleet_input) == expected_output
+
 
 @pytest.mark.parametrize("fleet_input, expected_output",
                          [

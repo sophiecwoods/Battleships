@@ -22,6 +22,7 @@ def is_sunk(ship):
 
 
 def ship_type(ship):
+    """Returns one of the strings "battleship", "cruiser", "destroyer", or "submarine" identifying the type of ship"""
     ship_length = ship[3]
     if ship_length == 1:
         return "submarine"
@@ -32,9 +33,27 @@ def ship_type(ship):
     else:
         return "battleship"
 
+
 def is_open_sea(row, column, fleet):
-    #remove pass and add your implementation
-    pass
+    """checks if the square given by row and column neither contains nor is adjacent (horizontally, vertically, or
+     diagonally) to some ship in fleet. Returns Boolean True if so and False otherwise"""
+    open_sea = True
+    for ship in fleet:
+        row_pos = ship[0]
+        col_pos = ship[1]
+        horizontal = ship[2]
+        ship_length = ship[3]
+        for i in range(ship_length):
+            if horizontal:
+                col_pos += i
+            else:
+                row_pos += i
+            if (row_pos == row and col_pos == column) or \
+                    (abs(row_pos - row) == 1 and col_pos == column) or \
+                    (abs(col_pos - column) == 1 and row_pos == row) or \
+                    (abs(row_pos - row) == 1 and abs(col_pos - column) == 1):
+                open_sea = False
+    return open_sea
 
 def ok_to_place_ship_at(row, column, horizontal, length, fleet):
     #remove pass and add your implementation
