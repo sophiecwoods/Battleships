@@ -55,13 +55,31 @@ def is_open_sea(row, column, fleet):
                 open_sea = False
     return open_sea
 
+
 def ok_to_place_ship_at(row, column, horizontal, length, fleet):
-    #remove pass and add your implementation
-    pass
+    """checks if addition of a ship, specified by row, column, horizontal, and length as in ship representation above,
+    to the fleet results in a legal arrangement. If so, the function returns Boolean True and it returns False
+    otherwise. This function makes use of the function is_open_sea"""
+    ok_to_place = True
+    if (horizontal and (column + length > 10)) or \
+            (not horizontal and (row + length > 10)):
+            ok_to_place = False
+    for i in range(length):
+        if horizontal:
+            if not is_open_sea(row, column + i, fleet):
+                ok_to_place = False
+        else:
+            if not is_open_sea(row + i, column, fleet):
+                ok_to_place = False
+    return ok_to_place
+
 
 def place_ship_at(row, column, horizontal, length, fleet):
-    #remove pass and add your implementation
-    pass
+    """returns a new fleet that is the result of adding a ship, specified by row, column, horizontal, and length as in
+    ship representation above, to fleet. It may be assumed that the resulting arrangement of the new fleet is legal"""
+    ship = (row, column, horizontal, length, set())
+    fleet.append(ship)
+    return fleet
 
 def randomly_place_all_ships():
     #remove pass and add your implementation
