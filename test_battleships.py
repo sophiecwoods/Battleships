@@ -221,11 +221,76 @@ def test_place_ship_at1(row_input, column_input, horizontal_input, length_input,
 
 
 @pytest.mark.parametrize("row_input, column_input, fleet_input, expected_output",
-                         [
+                        [
+                             #tests that row and column inputs that hits third square of battleship returns True
                              (3, 0, [(1, 0, False, 4, set())], True),
 
+                             #tests that input that hits second square of cruiser returns True
+                            (5, 8, [(8, 2, True, 4, {(8, 4), (8, 5), (8, 2), (8, 3)}), (1, 4, True, 2, set()),
+                                    (5, 7, True, 3, set()), (2, 1, False, 3, set())], True),
+
+                            #tests that input that hits last square of destroyer returns True
+                            (9, 3, [(4, 0, True, 4, set()), (7, 9, False, 3, set()), (2, 8, False, 3, set()),
+                                    (7, 4, True, 2, set()), (1, 2, False, 2, set()), (9, 2, True, 2, set()),
+                                    (3, 6, False, 1, set())], True),
+
+                            #tests that input that hits submarine returns True
+                            (4, 6, [(6, 6, False, 4, set()), (7, 3, False, 3, {(7, 3), (8, 3), (9, 3)}),
+                                    (0, 1, True, 3, set()), (5, 0, True, 2, {(5, 1)}),
+                                    (4, 9, False, 2, {(5, 9), (4, 9)}), (1, 7, True, 2, set()), (4, 6, False, 1, set()),
+                                    (7, 8, True, 1, set()), (3, 4, True, 1, {(3, 4)}), (0, 5, False, 1, set())], True),
+
+                            #tests that input that hits first square of battleship that has 1 other hit
+                            #returns True
+                            (5, 2, [(5, 2, True, 4, {(5, 3)}), (8, 3, True, 3, {(8, 5), (8, 4), (8, 3)}),
+                            (0, 7, False, 3, {(1, 7)}), (0, 0, False, 2, set()), (9, 0, True, 2, set()),
+                            (6, 8, False, 2, set()), (3, 3, False, 1, set()), (9, 9, True, 1, {(9, 9)}),
+                            (1, 4, False, 1, {(1, 4)}), (3, 1, True, 1, set())], True),
+
+                            #tests that input that hits last square of cruiser that has 2 other hits
+                            #returns True
+                            (7, 9, [(0, 8, False, 4, {(0, 8), (2, 8), (4, 8), (3, 8)}),
+                                    (3, 6, False, 3, {(4, 6), (5, 6), (3, 6)}), (5, 9, False, 3, {(6, 2)}),
+                                    (8, 3, True, 2, {(8, 3), (8, 4)}),
+                                    (4, 2, True, 2, {(4, 3), (4, 2)}), (2, 2, True, 2, {(2, 2), (2, 3)}),
+                                    (7, 1, True, 1, {(7, 1)}), (7, 7, True, 1, {(7, 7)}),
+                                    (9, 7, True, 1, {(9, 7)}), (2, 0, False, 1, {(2, 0)})], True),
+
+                            #tests that input that hits an already hit square of a destroyer returns False
+                            (1, 1, [(3, 5, True, 4, set()), (5, 0, True, 3, set()), (8, 4, True, 3, set()),
+                                    (0, 4, False, 2, set()), (1, 1, False, 2, {(1, 1)})], False),
+
+                            #tests that input that hits an already hit and sunk submarine returns False
+                            (5, 7, [(2, 3, True, 4, {(2, 3), (2, 6), (2, 4), (2, 5)}),
+                                    (6, 1, False, 3, {(7, 1), (6, 1), (8, 1)}), (8, 7, True, 3, set()),
+                                    (3, 0, True, 2, set()), (0, 8, True, 2, {(0, 8), (1, 8)}),
+                                    (7, 4, True, 2, {(7, 5), (7, 4)}), (5, 7, False, 1, {(5, 7)}),
+                                    (5, 3, False, 1, {(5, 3)}), (9, 3, False, 1, set()), (4, 9, True, 1, {(4, 9)})],
+                             False),
+
+                            #Tests that input square that is horizontally next to a ship returns False
                              (4, 4, [(9, 0, True, 2, {(9, 1), (9, 1)}),
-                                     (4, 1, True, 3, {(4, 3)}), (0, 6, False, 4, set()), (6, 9, True, 1, set())], False)
+                                     (4, 1, True, 3, {(4, 3)}), (0, 6, False, 4, set()), (6, 9, True, 1, set())],
+                              False),
+
+                            #tests that input square that is vertically next to a ship returns False
+                            (2, 9, [(3, 9, False, 4, set()), (5, 3, True, 3, {(5, 3), (7, 3), (6, 3)}),
+                                    (8, 1, True, 2, set())], False),
+
+                            #tests that input square that is diagonally next to a ship returns False
+                            (8, 2, [(0, 2, True, 4, set()), (6, 5, False, 3, {(7, 5), (6, 5), (8, 6)}),
+                                    (2, 8, False, 3, set()), (4, 1, True, 2, set()), (3, 4, False, 2, set()),
+                                    (9, 0, True, 2, {(9, 0), (9, 1)}), (8, 8, True, 1, set()), (6, 1, True, 1, set())],
+                             False),
+
+                            #tests that input square that is in middle of open-sea returns False
+                            (6, 5, [(4, 2, False, 4, set()), (9, 6, True, 3, set()), (0, 7, False, 3, set()),
+                                    (2, 3, True, 2, set()), (6, 8, True, 2, set()), (1, 9, False, 1, set()),
+                                    (4, 6, True, 1, set()), (0, 0, False, 1, set()), (8, 0, False, 1, set()),
+                                    (2, 1, True, 1, set())], False),
+
+                            #tests that input square with an empty fleet returns False
+                            (0, 0, [], False)
                          ]
                          )
 def test_check_if_hits1(row_input, column_input, fleet_input, expected_output):
