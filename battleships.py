@@ -109,7 +109,7 @@ def randomly_place_all_ships():
 
 def check_if_hits(row, column, fleet):
     """returns Boolean value, which is True if the shot of the human player at the square represented by row and column
-    # hits any of the ships of fleet, and False otherwise"""
+    hits any of the ships of fleet, and False otherwise"""
     global ship_index
     global ship_hit
     hit = False
@@ -133,8 +133,15 @@ def check_if_hits(row, column, fleet):
     return hit
 
 def hit(row, column, fleet):
-    #remove pass and add your implementation
-    pass
+    """returns a tuple (fleet1, ship) where ship is the ship from the fleet fleet that receives a hit by the shot at
+     the square represented by row and column, and fleet1 is the fleet resulting from this hit. It may be assumed that
+     shooting at the square row, column results in of some ship in fleet"""
+    if check_if_hits(row, column, fleet):
+        hits = ship_hit[4]
+        fleet.remove(fleet[ship_index])
+        hits.add((row, column))
+        fleet.insert(ship_index, ship_hit)
+    return fleet, ship_hit
 
 def are_unsunk_ships_left(fleet):
     #remove pass and add your implementation
@@ -164,7 +171,6 @@ def main():
         if not are_unsunk_shis_left(current_fleet): game_over = True
 
     print("Game over! You required", shots, "shots.")
-
 
 if __name__ == '__main__': #keep this in
    main()

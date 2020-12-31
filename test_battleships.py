@@ -299,22 +299,65 @@ def test_check_if_hits1(row_input, column_input, fleet_input, expected_output):
 
 @pytest.mark.parametrize("row_input, column_input, fleet_input, expected_output",
                          [
+                             #tests that hitting a cruiser with 1 existing hit returns both the fleet where the cruiser
+                             # has 2 hits and the cruiser
                              (7, 2, [(7, 1, True, 3, {(7, 1)}), (0, 3, False, 4, {2, 3}), (6, 5, True, 1, set()),
-                                     (1, 9, False, 2, set())], ([(7, 1, True, 3, {(7, 1), (7, 2)}),
-                                                                 (0, 3, False, 4, {2, 3}), (6, 5, True, 1, set()),
-                                     (1, 9, False, 2, set())], (7, 1, True, 3, {(7, 1,), (7, 2)}))),
+                                (1, 9, False, 2, set())],
+                             ([(7, 1, True, 3, {(7, 1), (7, 2)}), (0, 3, False, 4, {2, 3}), (6, 5, True, 1, set()),
+                                (1, 9, False, 2, set())], (7, 1, True, 3, {(7, 1,), (7, 2)}))),
 
+                            #tests that hitting a destroyer with no hits returns both the fleet where the destoyer has
+                             #1 hit and the destroyer
                              (9, 9, [(4, 1, True, 1, {(4, 1)}), (7, 2, False, 3, {(7, 2), (8, 2), (9, 2)}),
-                                     (2, 6, False, 4, {(2, 6), (3, 6),}), (9, 8, True, 2, set())],
-                              ([(4, 1, True, 1, {(4, 1)}), (7, 2, False, 3, {(7, 2), (8, 2), (9, 2)}),
+                                     (2, 6, False, 4, {(2, 6), (3, 6),}), (9, 8, True, 2, set())], (
+                                 [(4, 1, True, 1, {(4, 1)}), (7, 2, False, 3, {(7, 2), (8, 2), (9, 2)}),
                                      (2, 6, False, 4, {(2, 6), (3, 6),}), (9, 8, True, 2, {(9, 9)})],
                              (9, 8, True, 2, {(9, 9)}))),
 
+                            #tests that hitting a battleship with 3 existing hits returns both the fleet where the
+                             #battleship has 4 hits and the battleship
                              (5, 5, [(5, 2, True, 4, {(5, 2), (5, 3), (5, 4)}), (3, 4, True, 2, {(3, 4), (3, 5)}),
                                      (0, 7, True, 1, {(0, 7)}), (4, 8, False, 3, {(4, 8), (5, 8), (6, 8)})],
                               ([(5, 2, True, 4, {(5, 2), (5, 3), (5, 4), (5, 5)}), (3, 4, True, 2, {(3, 4), (3, 5)}),
                                      (0, 7, True, 1, {(0, 7)}), (4, 8, False, 3, {(4, 8), (5, 8), (6, 8)})],
-                              (5, 2, True, 4, {(5, 2), (5, 3), (5, 4), (5, 5)})))
+                              (5, 2, True, 4, {(5, 2), (5, 3), (5, 4), (5, 5)}))),
+
+                            #tests that hitting a submarine with no exisitng hits returns both the fleet where the
+                             #submarine is hit and the submarine
+                            (9, 1, [(0, 6, True, 4, {(0, 6), (0, 7), (0, 8), (0, 9)}),
+                                    (5, 4, True, 3, {(5, 4), (5, 5), (5, 6)}), (6, 9, False, 3, set()),
+                                    (8, 6, False, 2, set()), (2, 0, False, 2, {(2, 0), (3, 0)}), (6, 1, True, 2, set()),
+                                    (9, 3, True, 1, {(9, 3)}), (9, 1, False, 1, set()), (2, 8, False, 1, set()),
+                                    (1, 2, True, 1, {(1, 2)})],
+                             ([(0, 6, True, 4, {(0, 6), (0, 7), (0, 8), (0, 9)}),
+                              (5, 4, True, 3, {(5, 4), (5, 5), (5, 6)}), (6, 9, False, 3, set()),
+                              (8, 6, False, 2, set()), (2, 0, False, 2, {(2, 0), (3, 0)}), (6, 1, True, 2, set()),
+                              (9, 3, True, 1, {(9, 3)}), (9, 1, False, 1, {(9, 1)}), (2, 8, False, 1, set()),
+                              (1, 2, True, 1, {(1, 2)})], (9, 1, False, 1, {(9, 1)}))),
+
+                            #tests that hitting a destroyer with 1 hit, that results in all 10 ships being sunk, returns
+                             #the fleet where the destroyer has 2 hits and the destroyer
+                             (3, 7, [(4, 0, True, 4, {(4, 3), (4, 2), (4, 1), (4, 0)}),
+                                     (1, 4, True, 3, {(1, 5), (1, 4), (1, 6)}),
+                                     (7, 3, False, 3, {(7, 3), (8, 3), (9, 3)}), (3, 7, False, 2, {(4, 7)}),
+                                     (0, 0, False, 2, {(1, 0), (0, 0)}), (7, 5, True, 2, {(7, 5), (7, 6)}),
+                                     (8, 8, True, 2, {(8, 8), (8, 9)})],
+                              ([(4, 0, True, 4, {(4, 3), (4, 2), (4, 1), (4, 0)}),
+                               (1, 4, True, 3, {(1, 5), (1, 4), (1, 6)}), (7, 3, False, 3, {(7, 3), (8, 3), (9, 3)}),
+                               (3, 7, False, 2, {(4, 7), (3, 7)}), (0, 0, False, 2, {(1, 0), (0, 0)}),
+                               (7, 5, True, 2, {(7, 5), (7, 6)}), (8, 8, True, 2, {(8, 8), (8, 9)})],
+                               (3, 7, False, 2, {(4, 7), (3, 7)}))),
+
+                            #tests that hitting a battleship with no hits in a fleet where there are no hits, returns
+                             #the fleet where the battleship has 1 hit and the battleship
+                            (4, 2, [(2, 2, False, 4, set()), (3, 4, False, 3, set()), (0, 7, True, 3, set()),
+                                    (5, 7, True, 2, set()), (0, 5, False, 2, set()), (8, 3, True, 2, set()),
+                                    (8, 9, True, 1, set()), (9, 7, True, 1, set()), (2, 8, True, 1, set()),
+                                    (9, 0, False, 1, set())],
+                             ([(2, 2, False, 4, {(4, 2)}), (3, 4, False, 3, set()), (0, 7, True, 3, set()),
+                                    (5, 7, True, 2, set()), (0, 5, False, 2, set()), (8, 3, True, 2, set()),
+                                    (8, 9, True, 1, set()), (9, 7, True, 1, set()), (2, 8, True, 1, set()),
+                                    (9, 0, False, 1, set())], (2, 2, False, 4, {(4, 2)})))
                          ]
                          )
 def test_hit1(row_input, column_input, fleet_input, expected_output):
