@@ -366,11 +366,57 @@ def test_hit1(row_input, column_input, fleet_input, expected_output):
 
 @pytest.mark.parametrize("fleet_input, expected_output",
                          [
-                             ([(1, 2, True, 2, {(1, 2), (1, 3)}), (3, 4, True, 1, {(3, 4)}),
-                             (6, 8, False, 3, {(8, 8)}), (1, 9, False, 4, {(1, 9), (2, 9), (3, 9), (4, 9)})], False),
+                            #tests that a fleet where all ships are sunk returns False
+                             ([(2, 3, True, 4, {(2, 3), (2, 4), (2, 5), (2, 6)}),
+                               (1, 1, False, 3, {(1, 1), (2, 1), (3, 1)}), (5, 7, True, 2, {(5, 7), (5, 8), (5, 9)}),
+                               (9, 2, True, 2, {(9, 2), (9, 3)}), (1, 8, True, 2, {(1, 8), (1, 9)}),
+                               (0, 3, True, 2, {(0, 4), (0,3)}), (5, 4, True, 1, {(5, 4)}), (6, 2, True, 1, {(6, 2)}),
+                               (8, 9, False, 1, {(8, 9)}), (7, 6, True, 1, {(7, 6)})], False),
 
-                             ([(1, 1, False, 3, {(1, 1), (2, 1), (3, 1)}), (9, 2, True, 2, {(9, 2), (9, 3)}),
-                               (2, 3, True, 4, {(2, 3), (2, 4), (2, 5), (2, 6)}), (5, 4, True, 1, {(5, 4)})], True)
+                             #tests that a fleet where all ships are sunk except a crusier, which has two squares left
+                             #to be hit returns True
+                             ([(1, 9, False, 4, {(1, 9), (2, 9), (3, 9), (4, 9)}), (6, 8, False, 3, {(8, 8)}),
+                               (6, 3, True, 3, {(6, 5,), (6, 4), (6, 4)}), (0, 6, False, 2, {(0, 6), (1, 6)}),
+                               (1, 2, True, 2, {(1, 2), (1, 3)}), (9, 5, True, 2, {(9, 5), (9, 6)}),
+                               (3, 4, True, 1, {(3, 4)}), (4, 0, True, 1, {(4, 0)}),(7, 1, False, 1, {(7, 1)}),
+                               (4, 2, False, 1, {(4, 2)})], True),
+
+                             #tests that a fleet where all ships are hit except a battleship which has three squares
+                             #left to be hit returns True
+                             ([(3, 1, False, 1, {(5, 1)}), (2, 4, True, 3, {(2, 4), (2, 5), (2, 6)}),
+                               (0, 2, True, 3, {(0, 3), (0, 2), (0, 4)}), (6, 7, True, 2, {(6, 8), (6, 7)}),
+                               (2, 9, False, 2, {(2, 9), (3, 9)}), (7, 5, False, 2, {(7, 5), (8, 5)}),
+                               (9, 1, False, 1, {(9, 1)}), (9, 8, True, 1, {(9, 8)}), (5, 4, False, 1, {(5, 4)}),
+                               (1, 0, True, 1, {(1, 0)})], True),
+
+                             #tests that a fleet where all ships are sunk except a submarine returns True
+                             ([(8, 6, True, 4, {(8, 7), (8, 6), (8, 8), (8, 9)}),
+                             (2, 2, False, 3, {(4, 2), (3, 2), (2, 2)}), (3, 7, False, 3, {(4, 7), (3, 7), (5, 7)}),
+                             (1, 4, True, 2, {(1, 4), (1, 5)}), (6, 0, True, 2, {(6, 1), (6, 0)}),
+                             (0, 8, True, 2, {(0, 8), (0, 9)}), (8, 3, False, 2, {(8, 3), (9, 3)}),
+                             (3, 4, True, 1, {(3, 4)}), (0, 0, True, 1, {(0, 0)}), (6, 9, False, 1, {(6, 9)}),
+                             (5, 5, True, 1, set())], True),
+
+                             #tests that a fleet with two destroyers left to be sunk returns True
+                             ([(3, 0, True, 4, {(3, 0), (3, 1), (3, 4), (3, 3)}),
+                               (1, 7, True, 3, {(1, 7), (1, 9), (1, 8)}), (6, 2, False, 3, {(8, 2), (7, 2), (6, 2)}),
+                               (4, 5, True, 2, set()), (8, 7, False, 2, {(8, 7)}), (0, 0, True, 2, {(0, 0), (0, 1)}),
+                               (9, 9, False, 1, {(9, 9)}), (8, 4, False, 1, {(8, 4)}), (5, 8, True, 1, {(5, 8)}),
+                               (0, 5, False, 1, {(0,5)})], True),
+
+                             #tests that a fleet where five ships are sunk and five ships are unsunk, some of which have
+                             #some hits and some have no hits, returns True
+                             ([(6, 6, False, 4, {(7, 6)}), (5, 2, True, 3, {(5, 3), (5, 2), (5, 4)}),
+                               (3, 7, True, 3, {(3, 7), (3, 8)}), (1, 1, False, 2, set()),
+                               (3, 4, True, 2, {(3, 4), (3, 5)}), (0, 9, False, 2, {(1, 9), (0, 9)}),
+                               (9, 4, False, 1, {(9, 4)}), (7, 0, True, 1, set()), (1, 6, False, 1, set()),
+                               (7, 8, True, 1, {(7, 8)})], True),
+
+                             #tests that a fleet where no ships are hit or sunk returns True
+                             ([(4, 7, False, 4, set()), (5, 9, False, 3, set()), (9, 2, True, 3, set()),
+                               (5, 3, False, 2, set()), (1, 2, True, 2, set()), (4, 1, False, 2, set()),
+                               (6, 5, True, 1, set()), (2, 8, True, 1, set()), (9, 8, False, 1, set()),
+                               (2, 5, False, 1, set())], True)
                          ]
                          )
 def test_are_unsunk_ships_left1(fleet_input, expected_output):
