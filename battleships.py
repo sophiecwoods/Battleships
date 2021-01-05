@@ -1,3 +1,5 @@
+import random
+
 def is_sunk(ship):
     """Returns Boolean value, which is True if ship is sunk and False otherwise."""
     # I have assigned the elements of ship to variables for code readability
