@@ -12,7 +12,6 @@ def on_shoot():
     shots += 1
     print(current_row, current_column, shots)
 
-
 # sets up window and frames
 root = tk.Tk()
 root.title("Battleships")
@@ -25,6 +24,32 @@ controls_frame = tk.Frame(root)
 results_frame.grid(row=1, sticky="nsew")
 board_frame.grid(row=2, sticky="nsew")
 controls_frame.grid(row=3, sticky="nsew")
+
+# widgets for results_frame
+# labels for keeping track of the number of shots
+shots_heading_lab = tk.Label(results_frame, text="Number of shots", font=("helvetica", 16))
+shots_lab = tk.Label(results_frame, text="", height=3, width=6, borderwidth=2, relief="solid")
+
+shots_heading_lab.grid(row=0, column=0, padx=30, pady=(10,0))
+shots_lab.grid(row=1, column=0, padx=30, pady=10)
+
+# label to tell user result of their input
+is_hit_lab = tk.Label(results_frame, text="")
+is_hit_lab.grid(row=1, column=1, padx=10, pady=10)
+
+# label to tell user result when a ship is sunk
+sunk_lab = tk.Label(results_frame, text="")
+sunk_lab.grid(row=1, column=2, padx=10, pady=10)
+
+# labels to tell user result when game ends
+game_over_lab = tk.Label(results_frame, text="")
+shots_req_lab = tk.Label(results_frame, text="")
+game_over_lab.grid(row=0, column=1, padx=(10,0), pady=10)
+shots_req_lab.grid(row=0, column=2, pady=10)
+
+# label to print error messages on invalid input
+error_lab = tk.Label(results_frame, text="")
+error_lab.grid(row=1, column=4, padx=10, pady=10)
 
 # widgets for board_frame
 # sets up the board
