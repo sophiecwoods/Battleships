@@ -411,13 +411,13 @@ def test_hit1(row_input, column_input, fleet_input, expected_output):
                              True),
 
                             # tests that a fleet where all ships are sunk except a submarine returns True
-                             ([(8, 6, True, 4, {(8, 7), (8, 6), (8, 8), (8, 9)}),
-                               (2, 2, False, 3, {(4, 2), (3, 2), (2, 2)}), (3, 7, False, 3, {(4, 7), (3, 7), (5, 7)}),
-                               (1, 4, True, 2, {(1, 4), (1, 5)}), (6, 0, True, 2, {(6, 1), (6, 0)}),
-                               (0, 8, True, 2, {(0, 8), (0, 9)}), (8, 3, False, 2, {(8, 3), (9, 3)}),
-                               (3, 4, True, 1, {(3, 4)}), (0, 0, True, 1, {(0, 0)}), (6, 9, False, 1, {(6, 9)}),
-                               (5, 5, True, 1, set())],
-                              True),
+                            ([(8, 6, True, 4, {(8, 7), (8, 6), (8, 8), (8, 9)}),
+                              (2, 2, False, 3, {(4, 2), (3, 2), (2, 2)}), (3, 7, False, 3, {(4, 7), (3, 7), (5, 7)}),
+                              (1, 4, True, 2, {(1, 4), (1, 5)}), (6, 0, True, 2, {(6, 1), (6, 0)}),
+                              (0, 8, True, 2, {(0, 8), (0, 9)}), (8, 3, False, 2, {(8, 3), (9, 3)}),
+                              (3, 4, True, 1, {(3, 4)}), (0, 0, True, 1, {(0, 0)}), (6, 9, False, 1, {(6, 9)}),
+                              (5, 5, True, 1, set())],
+                             True),
 
                             # tests that a fleet with two destroyers left to be sunk returns True
                              ([(3, 0, True, 4, {(3, 0), (3, 1), (3, 4), (3, 3)}),
