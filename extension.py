@@ -10,7 +10,35 @@ def on_shoot():
     row_entry.delete(0, "end")
     col_entry.delete(0, "end")
     shots += 1
-    print(current_row, current_column, shots)
+
+    # checks if given square results in hit, display message and change given square on board to red if so
+    if check_if_hits(current_row, current_column, current_fleet):
+        is_hit_lab.config(text="You have a hit!", fg="seagreen", font=("helvetica", 28))
+        sunk_lab.config(text="")
+        board[current_row, current_column].config(bg="red")
+        (current_fleet, ship_hit) = hit(current_row, current_column, current_fleet)
+
+        # checks if given square results in ship being sunk, display message and change text in given square to
+        # first letter of ship type if so
+        if is_sunk(ship_hit):
+            sunk_lab.config(text="You sank a " + ship_type(ship_hit) + "!", fg="blue2", font=("helvetica", 28))
+            if ship_type(ship_hit) == "submarine":
+                board[current_row, current_column].create_text(22, 22, text="S")
+            elif ship_type(ship_hit) == "destroyer":
+                for square in ship_hit[4]:
+                    board[square[0], square[1]].create_text(22, 22, text="D")
+            elif ship_type(ship_hit) == "cruiser":
+                for square in ship_hit[4]:
+                    board[square[0], square[1]].create_text(22, 22, text="C")
+            else:
+                for square in ship_hit[4]:
+                    board[square[0], square[1]].create_text(22, 22, text="B")
+
+    # displays miss message and changes given square on board to grey
+    else:
+        is_hit_lab.config(text="You missed!", fg="red4", font=("helvetica", 28))
+        sunk_lab.config(text="")
+        board[current_row, current_column].config(bg="darkgrey")
 
 # sets up window and frames
 root = tk.Tk()
