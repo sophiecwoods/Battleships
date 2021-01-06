@@ -2,7 +2,7 @@ import random
 
 def is_sunk(ship):
     """Returns Boolean value, which is True if ship is sunk and False otherwise."""
-    # I have assigned the elements of ship to variables for code readability
+    # I have assigned the elements of ship to variables throughout for code readability
     row_pos = ship[0]
     col_pos = ship[1]
     horizontal = ship[2]
@@ -232,7 +232,7 @@ def main():
         except IndexError:
             print("Invalid values for row and column. Please separate the values with a space.")
 
-    # only prints this game over message if user completes the game and not if they type quit
+    # only prints this game over message if user completes the game and not if they choose to quit
     if shots != 0:
         print("Game over! You required", shots, "shots.")
 
