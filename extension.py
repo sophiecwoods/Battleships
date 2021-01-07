@@ -120,6 +120,17 @@ for r in range(0, 11):
            board_canvas.grid(row=r, column=c)
            board[(r-1, c-1)] = board_canvas
 
+# sets up the key
+key = tk.Label(board_frame, text="Key", font=("helvetica", 14, "bold")).grid(row=3, column=12, padx=20)
+hit_lab = tk.Label(board_frame, text="Hit").grid(row=4, column=12)
+hit_sq = tk.Canvas(board_frame, bg="red", height=40, width=40).grid(row=4, column=13, padx=5)
+miss_lab = tk.Label(board_frame, text="Miss").grid(row=5, column=12)
+miss_sq = tk.Canvas(board_frame, bg="darkgrey", height=40, width=40).grid(row=5, column=13, padx=5)
+
+# button for user to quit the game
+quit_button = tk.Button(board_frame, text="Quit", padx=30, command=root.destroy)
+quit_button.grid(row=9, column=12, padx=(80,0))
+
 # widgets for controls frame
 # label headings for user entry boxes
 row_lab = tk.Label(controls_frame, text="Enter row", fg="royalblue4", font=("helvetica", 18))
