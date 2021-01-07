@@ -5,40 +5,65 @@ def on_shoot():
     global current_fleet  # a fleet which is created by calling randomly_place_all_ships
     global shots  # counts the number of shots. Initialized to 0
 
-    current_row = int(row_entry.get())
-    current_column = int(col_entry.get())
-    row_entry.delete(0, "end")
-    col_entry.delete(0, "end")
-    shots += 1
+    # gets the row and column inputs and then clears the fields; increments number of shots and displays the
+    # updated number; clears any previous error messages
+    try:
+        current_row = int(row_entry.get())
+        current_column = int(col_entry.get())
+        row_entry.delete(0, "end")
+        col_entry.delete(0, "end")
+        shots += 1
+        shots_lab.config(text=shots)
+        error_lab.config(text="")
 
-    # checks if given square results in hit, display message and change given square on board to red if so
-    if check_if_hits(current_row, current_column, current_fleet):
-        is_hit_lab.config(text="You have a hit!", fg="seagreen", font=("helvetica", 28))
+        # checks if given square results in hit, display message and change given square on board to red if so
+        if check_if_hits(current_row, current_column, current_fleet):
+            is_hit_lab.config(text="You have a hit!", fg="seagreen", font=("helvetica", 28))
+            sunk_lab.config(text="")
+            board[current_row, current_column].config(bg="red")
+            (current_fleet, ship_hit) = hit(current_row, current_column, current_fleet)
+
+            # checks if given square results in ship being sunk, display message and change text in given square to
+            # first letter of ship type if so
+            if is_sunk(ship_hit):
+                sunk_lab.config(text="You sank a " + ship_type(ship_hit) + "!", fg="blue2", font=("helvetica", 28))
+                if ship_type(ship_hit) == "submarine":
+                    board[current_row, current_column].create_text(22, 22, text="S")
+                elif ship_type(ship_hit) == "destroyer":
+                    for square in ship_hit[4]:
+                        board[square[0], square[1]].create_text(22, 22, text="D")
+                elif ship_type(ship_hit) == "cruiser":
+                    for square in ship_hit[4]:
+                        board[square[0], square[1]].create_text(22, 22, text="C")
+                else:
+                    for square in ship_hit[4]:
+                        board[square[0], square[1]].create_text(22, 22, text="B")
+
+        # displays miss message and changes given square on board to grey
+        else:
+            is_hit_lab.config(text="You missed!", fg="red4", font=("helvetica", 28))
+            sunk_lab.config(text="")
+            board[current_row, current_column].config(bg="darkgrey")
+
+    # exception handling for shoot button being clicked before row and/or integer values are entered
+    except NameError:
+        error_lab.config(text="Enter row and column values (between 0 and 9) first", font=("helvetica", 18))
+        is_hit_lab.config(text="")
         sunk_lab.config(text="")
-        board[current_row, current_column].config(bg="red")
-        (current_fleet, ship_hit) = hit(current_row, current_column, current_fleet)
+        game_over_lab.config(text="")
 
-        # checks if given square results in ship being sunk, display message and change text in given square to
-        # first letter of ship type if so
-        if is_sunk(ship_hit):
-            sunk_lab.config(text="You sank a " + ship_type(ship_hit) + "!", fg="blue2", font=("helvetica", 28))
-            if ship_type(ship_hit) == "submarine":
-                board[current_row, current_column].create_text(22, 22, text="S")
-            elif ship_type(ship_hit) == "destroyer":
-                for square in ship_hit[4]:
-                    board[square[0], square[1]].create_text(22, 22, text="D")
-            elif ship_type(ship_hit) == "cruiser":
-                for square in ship_hit[4]:
-                    board[square[0], square[1]].create_text(22, 22, text="C")
-            else:
-                for square in ship_hit[4]:
-                    board[square[0], square[1]].create_text(22, 22, text="B")
-
-    # displays miss message and changes given square on board to grey
-    else:
-        is_hit_lab.config(text="You missed!", fg="red4", font=("helvetica", 28))
+    # exception handling for integer inputs greater than 9 i.e squares not on the board
+    except KeyError:
+        error_lab.config(text="Enter numbers between 0 and 9", font=("helvetica", 18))
+        is_hit_lab.config(text="")
         sunk_lab.config(text="")
-        board[current_row, current_column].config(bg="darkgrey")
+        game_over_lab.config(text="")
+
+    # exception handling for invalid input i.e. non integers
+    except ValueError:
+        error_lab.config(text="Enter numbers between 0 and 9", font=("helvetica", 18))
+        is_hit_lab.config(text="")
+        sunk_lab.config(text="")
 
 # sets up window and frames
 root = tk.Tk()
