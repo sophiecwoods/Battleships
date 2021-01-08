@@ -2,6 +2,9 @@ import tkinter as tk
 from battleships import *
 
 def on_shoot():
+    """Outputs the response of the computer to the values entered in row and column fields each time the user clicks
+    the shoot button, making use of functions in battleships module. Checks whether the given square is a hit or miss;
+    whether it has been shot at before; whether a ship is sunk; and whether the game is over."""
     global current_fleet  # a fleet which is created by calling randomly_place_all_ships
     global shots  # counts the number of shots. Initialized to 0
     global squares_shot_at  # stores the squares previously shot at in a list
