@@ -4,6 +4,7 @@ from battleships import *
 def on_shoot():
     global current_fleet  # a fleet which is created by calling randomly_place_all_ships
     global shots  # counts the number of shots. Initialized to 0
+    global squares_shot_at  # stores the squares previously shot at in a list
 
     # gets the row and column inputs and then clears the fields; increments number of shots and displays the
     # updated number; clears any previous error messages
@@ -16,8 +17,13 @@ def on_shoot():
         shots_lab.config(text=shots)
         error_lab.config(text="")
 
+        # checks if given square has already been shot at and displays message if so
+        if (current_row, current_column) in squares_shot_at:
+            is_hit_lab.config(text="You missed!\n(you've already tried that square)", fg="red4", font=("helvetica", 28))
+            sunk_lab.config(text="")
+
         # checks if given square results in hit, display message and change given square on board to red if so
-        if check_if_hits(current_row, current_column, current_fleet):
+        elif check_if_hits(current_row, current_column, current_fleet):
             is_hit_lab.config(text="You have a hit!", fg="seagreen", font=("helvetica", 28))
             sunk_lab.config(text="")
             board[current_row, current_column].config(bg="red")
@@ -44,6 +50,8 @@ def on_shoot():
             is_hit_lab.config(text="You missed!", fg="red4", font=("helvetica", 28))
             sunk_lab.config(text="")
             board[current_row, current_column].config(bg="darkgrey")
+
+        squares_shot_at.append((current_row, current_column))
 
     # exception handling for shoot button being clicked before row and/or integer values are entered
     except NameError:
@@ -81,7 +89,7 @@ controls_frame.grid(row=3, sticky="nsew")
 # widgets for results_frame
 # labels for keeping track of the number of shots
 shots_heading_lab = tk.Label(results_frame, text="Number of shots", font=("helvetica", 16))
-shots_lab = tk.Label(results_frame, text="", height=3, width=6, borderwidth=2, relief="solid")
+shots_lab = tk.Label(results_frame, text="0", height=3, width=6, borderwidth=2, relief="solid")
 
 shots_heading_lab.grid(row=0, column=0, padx=30, pady=(10,0))
 shots_lab.grid(row=1, column=0, padx=30, pady=10)
@@ -150,5 +158,6 @@ shoot_button.grid(row=1, column=2, padx=20, pady=10)
 
 current_fleet = randomly_place_all_ships()
 shots = 0
+squares_shot_at = []
 
 root.mainloop()
