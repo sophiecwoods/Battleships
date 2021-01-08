@@ -56,6 +56,14 @@ def on_shoot():
 
         squares_shot_at.append((current_row, current_column))
 
+        # checks if game is over, displays messages if so, calls play_again function to create pop up message after 3
+        # seconds which asks user to choose to play again or quit
+        if not are_unsunk_ships_left(current_fleet):
+            game_over_lab.config(text="Game over!", fg="purple3", font=("helvetica", 28, "bold"))
+            shots_req_lab.config(text=f"You required {str(shots)} shots", fg="purple3", font=("helvetica", 28, "bold"))
+            error_lab.config(text="")
+            root.after(3000, play_again)
+
     # exception handling for shoot button being clicked before row and/or integer values are entered
     except NameError:
         error_lab.config(text="Enter row and column values (between 0 and 9) first", font=("helvetica", 18))
@@ -75,6 +83,35 @@ def on_shoot():
         error_lab.config(text="Enter numbers between 0 and 9", font=("helvetica", 18))
         is_hit_lab.config(text="")
         sunk_lab.config(text="")
+
+def play_again():
+    """Creates play again popup message. User can click to play again or quit the game."""
+    response = messagebox.askyesno("Game over", "Play again?")
+    if response == 1:
+            reset_game()
+    else:
+        root.destroy()
+
+def reset_game():
+    """Resets board, fleet, number of shots, and labels for user to play again."""
+    global current_fleet
+    global shots
+    global squares_shot_at
+
+    # change all squares back to blue and remove all text
+    for square in board:
+        board[square[0], square[1]].config(bg="lightblue")
+        board[square[0], square[1]].delete("all")
+
+    # reset all labels; create a new fleet; set number of shots to 0; and create empty list of squares shot at
+    is_hit_lab.config(text="")
+    sunk_lab.config(text="")
+    shots_lab.config(text="0")
+    game_over_lab.config(text="")
+    shots_req_lab.config(text="")
+    current_fleet = randomly_place_all_ships()
+    shots = 0
+    squares_shot_at = []
 
 # sets up window and frames
 root = tk.Tk()
