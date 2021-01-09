@@ -65,7 +65,7 @@ def on_shoot():
             error_lab.config(text="")
             root.after(3000, play_again)
 
-    # exception handling for shoot button being clicked before row and/or integer values are entered
+    # exception handling for shoot button being clicked before row and/or column integer values are entered
     except NameError:
         error_lab.config(text="Enter row and column values (between 0 and 9) first", font=("helvetica", 18))
         is_hit_lab.config(text="")
