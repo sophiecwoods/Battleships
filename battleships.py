@@ -1,5 +1,6 @@
 import random
 
+
 def is_sunk(ship):
     """Returns Boolean value, which is True if ship is sunk and False otherwise."""
     # I have assigned the elements of ship to variables throughout for code readability
@@ -27,6 +28,7 @@ def is_sunk(ship):
     else:
         return False
 
+
 def ship_type(ship):
     """Returns one of the strings "battleship", "cruiser", "destroyer", or "submarine" identifying the type of ship."""
     ship_length = ship[3]
@@ -35,6 +37,7 @@ def ship_type(ship):
     elif ship_length == 2: return "destroyer"
     elif ship_length == 3: return "cruiser"
     else: return "battleship"
+
 
 def is_open_sea(row, column, fleet):
     """Checks if the square given by row and column neither contains nor is adjacent (horizontally, vertically, or
@@ -63,6 +66,7 @@ def is_open_sea(row, column, fleet):
 
     return open_sea
 
+
 def ok_to_place_ship_at(row, column, horizontal, length, fleet):
     """Checks if addition of a ship, specified by row, column, horizontal, and length as in ship representation above,
     to the fleet results in a legal arrangement. If so, the function returns Boolean True and it returns False
@@ -70,9 +74,8 @@ def ok_to_place_ship_at(row, column, horizontal, length, fleet):
     ok_to_place = True
 
     # checks that placing ship at given square does not result in ship going off the edge of board
-    if (horizontal and (column + length > 10)) or \
-            (not horizontal and (row + length > 10)):
-            ok_to_place = False
+    if (horizontal and (column + length > 10)) or (not horizontal and (row + length > 10)):
+        ok_to_place = False
 
     # starting at top left square and incrementing row or column by 1 depending on ship orientation, checks that each
     # square ship would occupy is a legal placement using is_open_sea function
@@ -86,12 +89,14 @@ def ok_to_place_ship_at(row, column, horizontal, length, fleet):
 
     return ok_to_place
 
+
 def place_ship_at(row, column, horizontal, length, fleet):
     """Returns a new fleet that is the result of adding a ship, specified by row, column, horizontal, and length as in
     ship representation above, to fleet. It may be assumed that the resulting arrangement of the new fleet is legal."""
     ship = (row, column, horizontal, length, set())
     fleet.append(ship)
     return fleet
+
 
 def randomly_place_all_ships():
     """Returns a fleet that is a result of a random legal arrangement of the 10 ships in the ocean. This function
@@ -132,6 +137,7 @@ def randomly_place_all_ships():
 
     return fleet
 
+
 def check_if_hits(row, column, fleet):
     """Returns Boolean value, which is True if the shot of the human player at the square represented by row and column
     hits any of the ships of fleet, and False otherwise."""
@@ -151,7 +157,7 @@ def check_if_hits(row, column, fleet):
         ship_hits = ship[4]
 
         for i in range(ship_length):
-            if horizontal == True:
+            if horizontal:
                 if row_pos == row and col_pos + i == column and (row_pos, col_pos + i) not in ship_hits:
                     hit = True
                     ship_index = index
@@ -163,6 +169,7 @@ def check_if_hits(row, column, fleet):
                     ship_hit = ship
 
     return hit
+
 
 def hit(row, column, fleet):
     """Returns a tuple (fleet1, ship) where ship is the ship from the fleet fleet that receives a hit by the shot at
@@ -179,6 +186,7 @@ def hit(row, column, fleet):
 
     return fleet, ship_hit
 
+
 def are_unsunk_ships_left(fleet):
     """Returns Boolean value, which is True if there are ships in the fleet that are still not sunk, and False
      otherwise."""
@@ -193,6 +201,7 @@ def are_unsunk_ships_left(fleet):
         return False
     else:
         return True
+
 
 def main():
     """Returns nothing. It prompts the user to call out rows and columns of shots and outputs the responses of the
@@ -246,5 +255,6 @@ def main():
     if shots != 0:
         print("Game over! You required", shots, "shots.")
 
+
 if __name__ == '__main__':
-   main()
+    main()
