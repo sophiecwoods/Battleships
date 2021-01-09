@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from battleships import *
 
 def on_shoot():
@@ -174,10 +175,18 @@ hit_lab = tk.Label(board_frame, text="Hit").grid(row=4, column=12)
 hit_sq = tk.Canvas(board_frame, bg="red", height=40, width=40).grid(row=4, column=13, padx=5)
 miss_lab = tk.Label(board_frame, text="Miss").grid(row=5, column=12)
 miss_sq = tk.Canvas(board_frame, bg="darkgrey", height=40, width=40).grid(row=5, column=13, padx=5)
+submarine_lab = tk.Label(board_frame, text="Submarine sunk").grid(row=6, column=12, padx=(20,0))
+submarine_sq = tk.Label(board_frame, bg="red", text="S", height=2, width=4).grid(row=6, column=13, padx=10)
+destroyer_lab = tk.Label(board_frame, text="Destroyer sunk").grid(row=7, column=12, padx=(20,0))
+destroyer_sq = tk.Label(board_frame, bg="red", text="D", height=2, width=4).grid(row=7, column=13, padx=10)
+cruiser_lab = tk.Label(board_frame, text="Cruiser sunk").grid(row=8, column=12, padx=(20,0))
+cruiser_sq = tk.Label(board_frame, bg="red", text="C", height=2, width=4).grid(row=8, column=13, padx=10)
+battleship_lab = tk.Label(board_frame, text="Battleship sunk").grid(row=9, column=12, padx=(20,0))
+battleship_sq = tk.Label(board_frame, bg="red", text="B", height=2, width=4).grid(row=9, column=13, padx=10)
 
 # button for user to quit the game
 quit_button = tk.Button(board_frame, text="Quit", padx=30, command=root.destroy)
-quit_button.grid(row=9, column=12, padx=(80,0))
+quit_button.grid(row=11, column=12, padx=(80,0))
 
 # widgets for controls frame
 # label headings for user entry boxes
@@ -196,6 +205,7 @@ col_entry.grid(row=1, column=1, pady=10)
 shoot_button = tk.Button(controls_frame, text="Shoot", font=("helvetica", 16, "bold"), command=on_shoot)
 shoot_button.grid(row=1, column=2, padx=20, pady=10)
 
+# create fleet; initialize number of shots to 0; and create empty list to store squares user shoots at
 current_fleet = randomly_place_all_ships()
 shots = 0
 squares_shot_at = []
