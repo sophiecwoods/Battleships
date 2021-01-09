@@ -8,7 +8,8 @@ def is_sunk(ship):
     horizontal = ship[2]
     ship_length = ship[3]
     hits = ship[4]
-    num_of_hits = 0 #initialize number of hits to 0
+    # initialize number of hits to 0
+    num_of_hits = 0
 
     # starting at top left square and incrementing row or column by 1 depending on ship orientation,
     # checks whether each square the ship occupies is hit and adds 1 to num_of_hits if it is
@@ -97,7 +98,7 @@ def randomly_place_all_ships():
      makes use of the functions ok_to_place_ship_at and place_ship_at."""
     fleet = []
 
-    #places one battleships
+    # places one battleships
     while len(fleet) < 1:
         random_row = random.randint(0, 9)
         random_column = random.randint(0, 9)
@@ -105,7 +106,7 @@ def randomly_place_all_ships():
         if ok_to_place_ship_at(random_row, random_column, random_horizontal, 4, fleet):
             place_ship_at(random_row, random_column, random_horizontal, 4, fleet)
 
-    #places two cruisers
+    # places two cruisers
     while len(fleet) < 3:
         random_row = random.randint(0, 9)
         random_column = random.randint(0, 9)
@@ -113,7 +114,7 @@ def randomly_place_all_ships():
         if ok_to_place_ship_at(random_row, random_column, random_horizontal, 3, fleet):
             place_ship_at(random_row, random_column, random_horizontal, 3, fleet)
 
-    #places three destroyers
+    # places three destroyers
     while len(fleet) < 6:
         random_row = random.randint(0, 9)
         random_column = random.randint(0, 9)
@@ -121,7 +122,7 @@ def randomly_place_all_ships():
         if ok_to_place_ship_at(random_row, random_column, random_horizontal, 2, fleet):
             place_ship_at(random_row, random_column, random_horizontal, 2, fleet)
 
-    #places four battleships
+    # places four battleships
     while len(fleet) < 10:
         random_row = random.randint(0, 9)
         random_column = random.randint(0, 9)
@@ -205,22 +206,31 @@ def main():
         try:
             input_str = input("Enter row and column (separated by space) to shoot or type 'quit' to end the game: ")
             if input_str == "quit" or input_str == "Quit":
+                # reset shots to 0 if user quits game before completing it
                 shots = 0
                 game_over = True
                 print("You have ended the game.")
             else:
+                # if user input is not quit, store location of shot as integers
                 loc_str = input_str.split()
                 current_row = int(loc_str[0])
                 current_column = int(loc_str[1])
-                shots += 1
 
-                if check_if_hits(current_row, current_column, current_fleet):
-                    print("You have a hit!")
-                    (current_fleet, ship_hit) = hit(current_row, current_column, current_fleet)
-                    if is_sunk(ship_hit):
-                        print("You sank a " + ship_type(ship_hit) + "!")
+                # check that user input is a valid number on the board
+                if current_row <= 9 and current_column <=9:
+                    shots += 1
+
+                    # check if shot is a hit, update fleet and ship if so, and check if shot sinks ship
+                    if check_if_hits(current_row, current_column, current_fleet):
+                        print("You have a hit!")
+                        (current_fleet, current_ship) = hit(current_row, current_column, current_fleet)
+                        if is_sunk(ship_hit):
+                            print("You sank a " + ship_type(ship_hit) + "!")
+                    else:
+                        print("You missed!")
+
                 else:
-                    print("You missed!")
+                    print("Invalid values for row and column. Please enter numbers between 0 and 9.")
 
             if not are_unsunk_ships_left(current_fleet): game_over = True
 
