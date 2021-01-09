@@ -172,6 +172,11 @@ def test_is_open_sea1(row_input, column_input, fleet_input, expected_output):
                                               (2, 7, False, 2, set()), (9, 0, True, 2, set()), (8, 4, True, 1, set())],
                               False),
 
+                             # tests that destroyer placed wth second square on top of another ship, and 3 ships on
+                             # board, returns False
+                             (7, 5, False, 2, [(8, 3, True, 4, set()), (1, 2, False, 3, set()), (2, 7, True, 3, set())],
+                              False),
+
                              # tests that submarine placed horizontally and diagonally next to 2 ships, and 9 ships on
                              # board, returns False
                              (8, 7, False, 1, [(5, 1, True, 4, set()), (6, 6, False, 3, set()), (0, 6, True, 3, set()),
