@@ -217,7 +217,7 @@ def main():
                 current_column = int(loc_str[1])
 
                 # check that user input is a valid number on the board
-                if current_row <= 9 and current_column <=9:
+                if 0 <= current_row <= 9 and 0 <= current_column <= 9:
                     shots += 1
 
                     # check if shot is a hit, update fleet and ship if so, and check if shot sinks ship
