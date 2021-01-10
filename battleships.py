@@ -144,7 +144,7 @@ def check_if_hits(row, column, fleet):
     global ship_index
     global ship_hit
 
-    hit = False
+    is_hit = False
 
     # for each ship in fleet, starting at top left square and incrementing row or column by 1 depending on ship
     # orientation, checks whether given square results in a hit. If there's a hit, stores the ship that was hit and the
@@ -159,16 +159,16 @@ def check_if_hits(row, column, fleet):
         for i in range(ship_length):
             if horizontal:
                 if row_pos == row and col_pos + i == column and (row_pos, col_pos + i) not in ship_hits:
-                    hit = True
+                    is_hit = True
                     ship_index = index
                     ship_hit = ship
             else:
                 if row_pos + i == row and col_pos == column and (row_pos + i, col_pos) not in ship_hits:
-                    hit = True
+                    is_hit = True
                     ship_index = index
                     ship_hit = ship
 
-    return hit
+    return is_hit
 
 
 def hit(row, column, fleet):
