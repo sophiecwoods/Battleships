@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from battleships import *
 
+
 def on_shoot():
     """Outputs the response of the computer to the values entered in row and column fields each time the user clicks
     the shoot button, making use of functions in battleships module. Checks whether the given square is a hit or miss;
@@ -85,13 +86,15 @@ def on_shoot():
         is_hit_lab.config(text="")
         sunk_lab.config(text="")
 
+
 def play_again():
     """Creates play again popup message. User can click to play again or quit the game."""
     response = messagebox.askyesno("Game over", "Play again?")
     if response == 1:
-            reset_game()
+        reset_game()
     else:
         root.destroy()
+
 
 def reset_game():
     """Resets board, fleet, number of shots, and labels for user to play again."""
@@ -113,6 +116,7 @@ def reset_game():
     current_fleet = randomly_place_all_ships()
     shots = 0
     squares_shot_at = []
+
 
 # sets up window and frames
 root = tk.Tk()
@@ -157,17 +161,17 @@ error_lab.grid(row=1, column=4, padx=10, pady=10)
 # sets up the board
 board = {}
 for r in range(0, 11):
-   for c in range(0, 11):
-       if r == 0 and c == 0:
-           continue
-       elif r == 0:
-           tk.Label(board_frame, text=str(c-1)).grid(row=r, column=c, pady=5)
-       elif c == 0:
-           tk.Label(board_frame, text=str(r-1)).grid(row=r, column=c, padx=(50, 5))
-       else:
-           board_canvas = tk.Canvas(board_frame, bg="lightblue", height=40, width=40)
-           board_canvas.grid(row=r, column=c)
-           board[(r-1, c-1)] = board_canvas
+    for c in range(0, 11):
+        if r == 0 and c == 0:
+            continue
+        elif r == 0:
+            tk.Label(board_frame, text=str(c-1)).grid(row=r, column=c, pady=5)
+        elif c == 0:
+            tk.Label(board_frame, text=str(r-1)).grid(row=r, column=c, padx=(50, 5))
+        else:
+            board_canvas = tk.Canvas(board_frame, bg="lightblue", height=40, width=40)
+            board_canvas.grid(row=r, column=c)
+            board[(r-1, c-1)] = board_canvas
 
 # sets up the key
 key = tk.Label(board_frame, text="Key", font=("helvetica", 14, "bold")).grid(row=3, column=12, padx=20)
