@@ -62,7 +62,7 @@ def on_shoot():
         # seconds which asks user to choose to play again or quit
         if not are_unsunk_ships_left(current_fleet):
             game_over_lab.config(text="Game over!", fg="purple3", font=("helvetica", 28, "bold"))
-            shots_req_lab.config(text=f"You required {str(shots)} shots", fg="purple3", font=("helvetica", 28, "bold"))
+            shots_req_lab.config(text="You required {str(shots)} shots", fg="purple3", font=("helvetica", 28, "bold"))
             error_lab.config(text="")
             root.after(3000, play_again)
 
