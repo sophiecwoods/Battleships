@@ -23,10 +23,7 @@ def is_sunk(ship):
                 num_of_hits += 1
 
     # checks if all squares in ship are hit
-    if num_of_hits == ship_length:
-        return True
-    else:
-        return False
+    return num_of_hits == ship_length
 
 
 def ship_type(ship):
@@ -197,10 +194,7 @@ def are_unsunk_ships_left(fleet):
         if is_sunk(ship):
             sunk_ships += 1
 
-    if sunk_ships == len(fleet):
-        return False
-    else:
-        return True
+    return sunk_ships == len(fleet)
 
 
 def main():
