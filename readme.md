@@ -1,7 +1,9 @@
  ## BATTLESHIPS
+ 
+ This was a coursework project I completed as part of the Principles of Programming I module as part of the MSc Computer Science at Birkbeck College, University of London.
+ 
  Purposes of this assignment: 
  
-
  - To give you more experience with collections (tuples, sets, ...)
  - To give you experience of writing tests and TDD-style development
  - To give you experience of working with output and graphics
